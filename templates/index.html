@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            color: #000000;
+        }
+
+        /* Converter Container */
+        .converter {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            box-sizing: border-box;
+            width: 300px;
+        }
+
+        /* Heading */
+        .converter h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        /* Form Elements */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #000000;
+            border-radius: 3px;
+            font-size: 14px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        /* Button */
+        button {
+            padding: 10px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333333;
+        }
+
+        /* Message Container */
+        .message-container {
+            margin-top: 15px;
+            min-height: 40px; /* Reserve space for messages */
+        }
+
+        /* Result and Error Messages */
+        .result, .error {
+            padding: 10px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 16px;
+            display: none; /* Hide by default */
+        }
+
+        .result.show {
+            display: block;
+            background-color: #f0f0f0;
+            color: #000000;
+            border: 1px solid #000000;
+        }
+
+        .error.show {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Currency Converter</h2>
+        <form method="POST">
+            <label for="from_currency">From:</label>
+            <select name="from_currency" id="from_currency" required>
+                {% for currency in currencies %}
+                    <option value="{{ currency }}" {% if currency == selected_from %}selected{% endif %}>{{ currency }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="to_currency">To:</label>
+            <select name="to_currency" id="to_currency" required>
+                {% for currency in currencies %}
+                    <option value="{{ currency }}" {% if currency == selected_to %}selected{% endif %}>{{ currency }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Get Exchange Rate</button>
+        </form>
+
+        <div class="message-container">
+            {% if result %}
+                <div class="result show">{{ result }}</div>
+            {% else %}
+                <div class="result"></div>
+            {% endif %}
+            
+            {% if error %}
+                <div class="error show">{{ error }}</div>
+            {% else %}
+                <div class="error"></div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
