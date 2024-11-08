@@ -107,6 +107,21 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
+        input[type="number"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #000000;
+            border-radius: 3px;
+            font-size: 14px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -127,7 +142,11 @@
                 {% endfor %}
             </select>
 
-            <button type="submit">Get Exchange Rate</button>
+            <!-- New Amount Field -->
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" id="amount" value="{{ amount }}" required min="0.01" step="any">
+
+            <button type="submit">Convert</button>
         </form>
 
         <div class="message-container">
