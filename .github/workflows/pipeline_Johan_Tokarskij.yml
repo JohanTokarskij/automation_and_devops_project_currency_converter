@@ -1,0 +1,58 @@
+name: CI/CD Pipeline of Johan Tokarskij
+
+on:
+  workflow_dispatch:
+    inputs:
+      log_errors:
+        description: 'Log errors if tests fail'
+        required: true
+        default: 'false'
+        type: boolean
+
+jobs:
+  # Job to run tests
+  run-tests:
+    runs-on: ubuntu-latest
+    outputs:
+      tests_passed: ${{ steps.check_test_results.outputs.tests_passed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests
+        id: run_tests
+        run: pytest tests/
+        continue-on-error: true 
+
+      - name: Check test results
+        id: check_test_results
+        run: |
+          if [ ${{ steps.run_tests.outcome }} == 'success' ]; then
+            echo "tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Job to upload error log conditionally
+  error-logging:
+    needs: run-tests
+    if: needs.run-tests.outputs.tests_passed == 'false' && github.event.inputs.log_errors == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Upload error logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: error-log
+          path: pytest-results.log
