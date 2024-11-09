@@ -89,4 +89,6 @@ def index():
 if __name__ == '__main__':
     if not API_KEY:
         raise ValueError("No API key found. Please set the FREE_CURRENCY_API_KEY environment variable.")
-    app.run(debug=True)
+    # Retrieve the port from the environment variable, default to 5000
+    port = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
