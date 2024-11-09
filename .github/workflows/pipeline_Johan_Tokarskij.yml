@@ -12,6 +12,8 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    env:
+      FREE_CURRENCY_API_KEY: ${{ secrets.FREE_CURRENCY_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
