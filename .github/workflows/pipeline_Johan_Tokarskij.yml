@@ -14,24 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run tests and generate log
         id: run_tests
-        run: pytest tests/ | tee pytest-results.log
+        run: pytest tests/ > pytest-results.log
         continue-on-error: true
 
       - name: Upload error logs if tests failed and logging is enabled
         if: ${{ steps.run_tests.outcome == 'failure' && github.event.inputs.log_errors == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: error-log
           path: pytest-results.log
