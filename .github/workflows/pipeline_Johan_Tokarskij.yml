@@ -9,11 +9,14 @@ on:
         default: 'false'
         type: boolean
 
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  FREE_CURRENCY_API_KEY: ${{ secrets.FREE_CURRENCY_API_KEY }}
+  
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-    env:
-      FREE_CURRENCY_API_KEY: ${{ secrets.FREE_CURRENCY_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,11 +45,8 @@ jobs:
         if: ${{ steps.run_tests.outcome == 'failure' }}
         run: exit 1
         
-  build-and-push:
+  build-and-push-to-dockerhub:
     runs-on: ubuntu-latest
-    env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     needs: run-tests
     if: ${{ needs.run-tests.result == 'success' }}
     steps:
