@@ -37,12 +37,12 @@ def index():
     error = None
     selected_from = 'EUR'  # Default selection
     selected_to = 'USD'    # Default selection
-    amount = 1             # Default amount
+    amount = 1.0             # Default amount
 
     if request.method == 'POST':
         from_currency = request.form.get('from_currency')
         to_currency = request.form.get('to_currency')
-        amount_str = request.form.get('amount', '1')
+        amount_str = request.form.get('amount', '1.0')
 
         if from_currency:
             selected_from = from_currency
