@@ -1,6 +1,6 @@
 # Currency Converter
 ## Project description
-A simple Flask web application that converts currencies using the [Free Currency API](https://freecurrencyapi.com/). This project focuses on CI/CD aspects of the project, which includes automated testing using GitHub Actions, creating a Docker image and deploying to Azure Web Apps.
+A simple Flask web application that converts currencies using the [Free Currency API](https://freecurrencyapi.com/). This project emphasizes CI/CD practices by incorporating automated testing with GitHub Actions, building and pushing Docker image to Docker Hub, and deploying the application to Azure Web Apps. Additionally, a Docker Hub webhook is implemented to automatically redeploy the app whenever a new image is pushed.
 
 ## Prerequisites
 * Python 3.6+ installed on your machine.
